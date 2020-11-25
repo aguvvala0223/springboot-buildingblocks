@@ -14,38 +14,47 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table(name = "user")
 //@JsonIgnoreProperties({"firstName","lastName"})
-@JsonFilter(value = "userFilter")
+//@JsonFilter(value = "userFilter")
 public class User {
 	
 	@Id
 	@GeneratedValue
+	@JsonView(Views.External.class)
 	private Long id;
 	
+	@JsonView(Views.External.class)
 	@NotEmpty(message= "UserName is a mandatory field.Please provide username")
 	@Column(name = "USER_NAME",length = 50, nullable=false, unique=true)
 	private String userName;
 	
+	@JsonView(Views.External.class)
 	@Size(min=2, message="FirstName should have atleast 2 characters")
 	@Column(name = "FIRST_NAME",length = 50, nullable=false)
 	private String firstName;
 	
+	@JsonView(Views.External.class)
 	@Column(name = "LAST_NAME",length = 50, nullable=false)
 	private String lastName;
 	
+	@JsonView(Views.External.class)
 	@Column(name = "EMAIL",length = 50, nullable=false)
 	private String email;
 	
+	@JsonView(Views.Internal.class)
 	@Column(name = "ROLE",length = 50, nullable=false)
 	private String role;
 	
+	@JsonView(Views.Internal.class)
 	//@JsonIgnore
 	@Column(name = "SSN",length = 50, nullable=false, unique=true)
 	private String ssn;
 	
+	@JsonView(Views.Internal.class)
 	@OneToMany(mappedBy="user")
 	private List<Order> orders;
 	
